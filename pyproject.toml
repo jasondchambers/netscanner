@@ -1,0 +1,16 @@
+[project]
+name = "netscanner"
+version = "0.1.0"
+description = "Enumerate devices with current DHCP leases across pfSense networks"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "paramiko>=5.0.0",
+]
+
+[project.scripts]
+netscanner = "netscanner.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
