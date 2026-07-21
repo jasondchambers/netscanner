@@ -63,7 +63,11 @@ def build_devices(
     seen_macs: set[str] = set()
 
     for ip, lease in leases.items():
-        if not lease.is_currently_valid(now_epoch):
+        if lease.is_currently_valid(now_epoch):
+            status = "active"
+        elif lease.is_stale(now_epoch):
+            status = "stale"
+        else:
             continue
 
         iface = _locate_interface(ip, interfaces)
@@ -77,7 +81,7 @@ def build_devices(
                 description=static.description if static else None,
                 client_id=lease.client_id,
                 is_static_reservation=static is not None,
-                status="active",
+                status=status,
                 lease_last_renewed=lease.last_renewed_iso,
                 lease_expires=lease.expire_iso,
                 iface=iface,

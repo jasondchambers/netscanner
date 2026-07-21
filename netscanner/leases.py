@@ -30,6 +30,19 @@ class Lease:
     def is_currently_valid(self, now_epoch: float) -> bool:
         return self.kea_state == STATE_DEFAULT and self.expire_epoch > now_epoch
 
+    def is_stale(self, now_epoch: float) -> bool:
+        """True if the lease expired recently (within one more lease cycle) but hasn't been reclaimed.
+
+        Some devices (e.g. certain smart-home gear) keep working fine long past their lease's
+        official expiry without proactively renewing, so a recently-expired lease doesn't
+        necessarily mean the device is gone.
+        """
+        return (
+            self.kea_state == STATE_DEFAULT
+            and self.expire_epoch <= now_epoch
+            and (now_epoch - self.expire_epoch) <= self.valid_lifetime
+        )
+
 
 def parse_leases(csv_text: str) -> dict[str, Lease]:
     """Parse a Kea memfile lease CSV (dhcp4.leases). Keeps the last row per address,

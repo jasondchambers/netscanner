@@ -2,7 +2,7 @@
 
 Enumerates devices with current DHCP leases across all networks on a pfSense box, over SSH, and prints JSON.
 
-Reads Kea DHCP's lease memfile (`/var/lib/kea/dhcp4.leases`) directly, since pfSense CE has no built-in REST API. A lease is only reported as `active` if it is genuinely unexpired right now — Kea's own `state` column lags reality (it's only flipped by periodic reclamation, not the instant a lease expires), so validity is computed from the `expire` timestamp instead. Reservation metadata (hostname, description) comes from `config.xml`, since it has richer data than Kea's generated config.
+Reads Kea DHCP's lease memfile (`/var/lib/kea/dhcp4.leases`) directly, since pfSense CE has no built-in REST API. A lease is only reported as `active` if it is genuinely unexpired right now — Kea's own `state` column lags reality (it's only flipped by periodic reclamation, not the instant a lease expires), so validity is computed from the `expire` timestamp instead. A lease that expired recently — within one more lease cycle — is reported as `stale` rather than dropped outright, since some devices (certain smart-home gear in particular) keep working fine long past their official expiry without proactively renewing. Leases expired longer than that are treated as gone. Reservation metadata (hostname, description) comes from `config.xml`, since it has richer data than Kea's generated config.
 
 ## Setup
 
