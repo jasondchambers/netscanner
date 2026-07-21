@@ -49,6 +49,13 @@ Each script reads a netscanner JSON document — as a file path argument, or fro
 - `update-ring-devices <netscanner.json> data/ring_devices.txt` — matches Ring devices by MAC against `data/ring_devices.txt` (a pasted-in listing of your Ring device inventory). Sets `description` to `"Ring: <Name>"`, `type` to `Audio / Video Security System`, `model` to `Ring Security Device`.
 - `update-sonos-devices <netscanner.json> data/sonos_system.txt` — matches Sonos speakers by MAC against `data/sonos_system.txt` (a pasted-in Sonos "About My System" diagnostic dump). Sets `description` to `"Sonos: <Room>: <Product>"`, `type` to `Wireless Speaker`, `model` to `Sonos Wireless Home Sound System`.
 - `update-eero-devices <netscanner.json>` — matches devices with `hostname == "eero"`; no external inventory needed. Sets `type` to `Wireless Range Extender`, `model` to `Eero WiFi System`.
+- `update-printer-devices <netscanner.json>` — matches the device with `hostname == "officeprinter"`; no external inventory needed. Sets `type` to `Printer/Scanner`, `model` to `Brother Printer/Scanner`.
+- `update-floorheater-devices <netscanner.json>` — matches the device with `hostname == "floorheatt-stat"`; no external inventory needed. Sets `type` to `Floorheater`, `model` to `Schluter Thermostat`.
+- `update-pc-devices <netscanner.json>` — matches known PCs by hostname (`jasons-mbp` → MacBook Pro, `thelio` → System76 Workstation, `cachyos-imac` → iMac); no external inventory needed. Sets `type` to `PC` and `model` accordingly.
+- `update-appletv-devices <netscanner.json>` — matches known Apple TVs by hostname (`guest-bedroom`, `k--j-apple-tv`, `den`); no external inventory needed. Sets `type` to `Smart TV`, `model` to `Apple TV`.
+- `update-pictureframe-devices <netscanner.json>` — matches the electronic picture frame by MAC (`04:c2:9b:1b:0f:2e`); no external inventory needed. Sets `type` to `Picture Frame`, `model` to `Aura`.
+- `update-garagedoor-devices <netscanner.json>` — matches the device with `hostname == "myq-7ee"`; no external inventory needed. Sets `type` to `Garage Door`, `model` to `MyQ-7EE`.
+- `update-arlo-devices <netscanner.json>` — matches the device with `hostname == "arloq"`; no external inventory needed. Sets `type` to `Audio / Video Security System`, `model` to `Arlo`.
 - `initialize-type-model-attributes <netscanner.json>` — run last; adds an empty `""` `type`/`model` to any device the earlier steps didn't touch, so every device ends up with both fields.
 
 Any device from `data/*.txt` not found in the netscanner JSON (e.g. an inactive lease) is reported to stderr and skipped, rather than failing the run.
@@ -60,6 +67,13 @@ cat expected.json |
   uv run update-ring-devices data/ring_devices.txt |
   uv run update-sonos-devices data/sonos_system.txt |
   uv run update-eero-devices |
+  uv run update-printer-devices |
+  uv run update-floorheater-devices |
+  uv run update-pc-devices |
+  uv run update-appletv-devices |
+  uv run update-pictureframe-devices |
+  uv run update-garagedoor-devices |
+  uv run update-arlo-devices |
   uv run initialize-type-model-attributes \
     >enriched.json
 ```

@@ -13,6 +13,13 @@ netscanner = "netscanner.cli:main"
 update-ring-devices = "enrich.update_ring_devices:main"
 update-sonos-devices = "enrich.update_sonos_devices:main"
 update-eero-devices = "enrich.update_eero_devices:main"
+update-printer-devices = "enrich.update_printer_devices:main"
+update-floorheater-devices = "enrich.update_floorheater_devices:main"
+update-pc-devices = "enrich.update_pc_devices:main"
+update-appletv-devices = "enrich.update_appletv_devices:main"
+update-pictureframe-devices = "enrich.update_pictureframe_devices:main"
+update-garagedoor-devices = "enrich.update_garagedoor_devices:main"
+update-arlo-devices = "enrich.update_arlo_devices:main"
 initialize-type-model-attributes = "enrich.initialize_type_model_attributes:main"
 
 [build-system]
