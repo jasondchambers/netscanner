@@ -16,6 +16,16 @@ export PFSENSE_SSH_KEY=~/.ssh/netscanner_pfsense
 
 ## Usage
 
+The easiest way to produce both the raw and enriched device inventory in one shot:
+
+```
+./generate_expected.sh
+```
+
+This runs `netscanner` against the pfSense host, writes the raw device list to `expected.json`, then pipes it through the enrichment pipeline (see [Enrichment](#enrichment)) to produce `enriched.json`. Edit the script if your pfSense host differs from `10.27.27.1`.
+
+To run `netscanner` directly instead:
+
 ```
 uv run netscanner --host 10.27.27.1
 ```
@@ -27,6 +37,32 @@ uv run netscanner --host 10.27.27.1 --no-include-offline-reservations
 ```
 
 Other flags: `--user`, `--port`, `--leases-path`, `--config-path`, `-o/--output`, `--compact`. Run `uv run netscanner --help` for the full list.
+
+## Enrichment
+
+`netscanner`'s raw output only knows what pfSense knows — MAC, IP, hostname, and whatever description was set on a DHCP reservation. The `enrich` package fills in `type`/`model`/`description` for device families pfSense can't identify on its own, by cross-referencing external inventory dumps (Ring, Sonos) or simple hostname matching (Eero).
+
+Each script reads a netscanner JSON document — as a file path argument, or from stdin if the argument is omitted — and writes the updated JSON to stdout, so they compose into a pipeline. Progress and per-device match messages go to stderr, keeping stdout clean for piping.
+
+- `update-ring-devices <netscanner.json> data/ring_devices.txt` — matches Ring devices by MAC against `data/ring_devices.txt` (a pasted-in listing of your Ring device inventory). Sets `description` to `"Ring: <Name>"`, `type` to `Audio / Video Security System`, `model` to `Ring Security Device`.
+- `update-sonos-devices <netscanner.json> data/sonos_system.txt` — matches Sonos speakers by MAC against `data/sonos_system.txt` (a pasted-in Sonos "About My System" diagnostic dump). Sets `description` to `"Sonos: <Room>: <Product>"`, `type` to `Wireless Speaker`, `model` to `Sonos Wireless Home Sound System`.
+- `update-eero-devices <netscanner.json>` — matches devices with `hostname == "eero"`; no external inventory needed. Sets `type` to `Wireless Range Extender`, `model` to `Eero WiFi System`.
+- `initialize-type-model-attributes <netscanner.json>` — run last; adds an empty `""` `type`/`model` to any device the earlier steps didn't touch, so every device ends up with both fields.
+
+Any device from `data/*.txt` not found in the netscanner JSON (e.g. an inactive lease) is reported to stderr and skipped, rather than failing the run.
+
+Run the full pipeline by hand:
+
+```
+cat expected.json |
+  uv run update-ring-devices data/ring_devices.txt |
+  uv run update-sonos-devices data/sonos_system.txt |
+  uv run update-eero-devices |
+  uv run initialize-type-model-attributes \
+    >enriched.json
+```
+
+`generate_expected.sh` wraps both the scan and this pipeline end to end.
 
 ## Known limitations
 
