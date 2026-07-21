@@ -13,11 +13,14 @@ class SSHConfig:
     timeout: float = 10.0
 
 
-def fetch_file(cfg: SSHConfig, remote_path: str) -> str:
+def fetch_file(cfg: SSHConfig, remote_path: str, optional: bool = False) -> str | None:
     """Fetch a remote text file's contents over SSH using the trusted key.
 
     Host keys are verified against the user's existing known_hosts (populated
     when they first SSH'd in manually) rather than trusted on first use.
+
+    If `optional` is set, a missing/unreadable file returns None instead of raising
+    (connection-level failures still raise either way).
     """
     client = paramiko.SSHClient()
     client.load_system_host_keys()
@@ -36,6 +39,8 @@ def fetch_file(cfg: SSHConfig, remote_path: str) -> str:
         data = stdout.read().decode("utf-8", errors="replace")
         exit_status = stdout.channel.recv_exit_status()
         if exit_status != 0:
+            if optional:
+                return None
             err = stderr.read().decode("utf-8", errors="replace").strip()
             raise RuntimeError(f"failed to read {remote_path!r} on {cfg.host}: {err or f'exit status {exit_status}'}")
         return data

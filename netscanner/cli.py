@@ -5,7 +5,7 @@ import sys
 from datetime import datetime, timezone
 
 from netscanner.devices import build_devices
-from netscanner.leases import parse_leases
+from netscanner.leases import merge_backup_leases, parse_leases
 from netscanner.pfsense_config import parse_config
 from netscanner.ssh import SSHConfig, fetch_file
 
@@ -31,6 +31,13 @@ def _build_arg_parser() -> argparse.ArgumentParser:
         default=True,
         help="Also include static DHCP reservations that have no active lease right now (default: on; use --no-include-offline-reservations for active leases only)",
     )
+    parser.add_argument(
+        "--include-backup-leases",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Also read <leases-path>.2 (Kea's Lease File Cleanup backup) to recover leases dropped from "
+        "the current file during compaction (default: on; use --no-include-backup-leases to disable)",
+    )
     parser.add_argument("-o", "--output", help="Write JSON to this file instead of stdout")
     parser.add_argument("--compact", action="store_true", help="Emit compact single-line JSON instead of pretty-printed")
     return parser
@@ -48,11 +55,16 @@ def main(argv: list[str] | None = None) -> int:
     try:
         leases_text = fetch_file(ssh_cfg, args.leases_path)
         config_text = fetch_file(ssh_cfg, args.config_path)
+        backup_leases_text = (
+            fetch_file(ssh_cfg, args.leases_path + ".2", optional=True) if args.include_backup_leases else None
+        )
     except Exception as exc:
         print(f"netscanner: {exc}", file=sys.stderr)
         return 1
 
     leases = parse_leases(leases_text)
+    if backup_leases_text:
+        leases = merge_backup_leases(leases, backup_leases_text)
     interfaces, static_maps = parse_config(config_text)
     devices = build_devices(leases, interfaces, static_maps, include_offline_reservations=args.include_offline_reservations)
 

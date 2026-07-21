@@ -73,3 +73,18 @@ def parse_leases(csv_text: str) -> dict[str, Lease]:
             expire_epoch=expire_epoch,
         )
     return latest
+
+
+def merge_backup_leases(leases: dict[str, Lease], backup_csv_text: str) -> dict[str, Lease]:
+    """Fill in any addresses missing from `leases` using rows from a backup lease file.
+
+    Kea's Lease File Cleanup (LFC) periodically compacts dhcp4.leases and keeps the prior
+    file around (e.g. dhcp4.leases.2). A lease write racing that compaction can be dropped
+    from the new file even though it's still genuinely valid, surviving only in the backup
+    until the device's next renewal. Since we're using DHCP purely as a discovery signal
+    (not as a strict lease audit), recovering those stranded-but-real leases is worth it.
+    Addresses present in `leases` always take precedence, since that file is authoritative.
+    """
+    merged = parse_leases(backup_csv_text)
+    merged.update(leases)
+    return merged

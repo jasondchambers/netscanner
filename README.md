@@ -4,6 +4,8 @@ Enumerates devices with current DHCP leases across all networks on a pfSense box
 
 Reads Kea DHCP's lease memfile (`/var/lib/kea/dhcp4.leases`) directly, since pfSense CE has no built-in REST API. A lease is only reported as `active` if it is genuinely unexpired right now — Kea's own `state` column lags reality (it's only flipped by periodic reclamation, not the instant a lease expires), so validity is computed from the `expire` timestamp instead. A lease that expired recently — within one more lease cycle — is reported as `stale` rather than dropped outright, since some devices (certain smart-home gear in particular) keep working fine long past their official expiry without proactively renewing. Leases expired longer than that are treated as gone. Reservation metadata (hostname, description) comes from `config.xml`, since it has richer data than Kea's generated config.
 
+Kea's Lease File Cleanup (LFC) periodically compacts `dhcp4.leases` and keeps the prior file around as `dhcp4.leases.2`. A lease write racing that compaction can occasionally be dropped from the new file even though it's still genuinely valid — invisible until the device's next renewal. Since the goal here is discovering what's on the network (not auditing DHCP bookkeeping), `netscanner` also reads `dhcp4.leases.2` and recovers any lease missing from the current file, with the current file always taking precedence when both have a record for the same address. Disable with `--no-include-backup-leases` if you want strict current-file-only behavior.
+
 ## Setup
 
 1. A dedicated SSH key must be authorized for `root` on the pfSense box (System → User Manager → root → Authorized SSH Keys).
@@ -36,7 +38,7 @@ By default, devices with a currently unexpired lease are listed *plus* static DH
 uv run netscanner --host 10.27.27.1 --no-include-offline-reservations
 ```
 
-Other flags: `--user`, `--port`, `--leases-path`, `--config-path`, `-o/--output`, `--compact`. Run `uv run netscanner --help` for the full list.
+Other flags: `--user`, `--port`, `--leases-path`, `--config-path`, `--include-backup-leases`, `-o/--output`, `--compact`. Run `uv run netscanner --help` for the full list.
 
 ## Enrichment
 
