@@ -107,11 +107,8 @@ def build_devices(
             )
 
     def sort_key(d: dict):
-        try:
-            ip_key = int(ipaddress.ip_address(d["ip"]))
-        except (TypeError, ValueError):
-            ip_key = -1
-        return (d["interface"] or "", ip_key)
+        mac = d["mac"]
+        return (mac is None, (mac or "").lower())
 
     devices.sort(key=sort_key)
     return devices

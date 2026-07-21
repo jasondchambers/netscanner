@@ -1,0 +1,129 @@
+Associated Product: 172.20.0.142
+---------------------------------
+Play:5: Basement2
+Serial Number: 00-0E-58-81-29-68:5
+Sonos OS: S1
+Version: 11.16.1 (build 572374170)
+Hardware Version: 1.16.4.1-1.0
+Series ID: P100
+IP Address: 172.20.0.138
+WM: 0
+OTP: 1.1.1(1-16-4-zp5s-0.5)
+---------------------------------
+Bridge: BRIDGE
+
+---------------------------------
+Connect: CD Source
+Serial Number: 94-9F-3E-B7-03-B2:1
+Sonos OS: S1
+Version: 11.16.1 (build 572374170)
+Hardware Version: 1.22.1.4-1.1
+Series ID: D100
+IP Address: 172.20.0.140
+WM: 0
+---------------------------------
+Sonos One: Den (RS)
+Serial Number: 78-28-CA-E0-55-FE:0
+Sonos OS: S1
+Version: 11.16.1 (build 572374170)
+Hardware Version: 1.26.1.6-1.1
+Series ID: A200
+IP Address: 172.20.0.101
+WM: 0
+---------------------------------
+Sub: Den
+Serial Number: 94-9F-3E-92-06-F0:C
+Sonos OS: S1
+Version: 11.16.1 (build 572374170)
+Hardware Version: 1.8.6.6-1.1
+Series ID: A101
+IP Address: 172.20.0.102
+WM: 0
+OTP: 
+---------------------------------
+Playbar: Den
+Serial Number: 00-0E-58-B0-B7-9A:6
+Sonos OS: S1
+Version: 11.16.1 (build 572374170)
+Hardware Version: 1.9.1.10-1.0
+Series ID: A100
+IP Address: 172.20.0.190
+Audio In: 
+WM: 0
+OTP: 
+---------------------------------
+Sonos One: Den (LS)
+Serial Number: 78-28-CA-E0-56-30:G
+Sonos OS: S1
+Version: 11.16.1 (build 572374170)
+Hardware Version: 1.26.1.6-1.1
+Series ID: A200
+IP Address: 172.20.0.226
+WM: 0
+---------------------------------
+Port: HiFi
+Serial Number: 48-A6-B8-27-EE-2C:C
+Sonos OS: S1
+Version: 11.16.1 (build 572374170)
+Hardware Version: 1.29.1.7-1.2
+Series ID: A100
+IP Address: 172.20.0.141
+WM: 0
+---------------------------------
+Play:1: Kitchen2
+Serial Number: 5C-AA-FD-7B-92-4C:3
+Sonos OS: S1
+Version: 11.16.1 (build 572374170)
+Hardware Version: 1.8.3.7-1.1
+Series ID: A101
+IP Address: 172.20.0.142
+WM: 0
+OTP: 
+---------------------------------
+Play:5: Lady Pit
+Serial Number: 00-0E-58-84-0A-76:8
+Sonos OS: S1
+Version: 11.16.1 (build 572374170)
+Hardware Version: 1.16.4.1-1.0
+Series ID: P100
+IP Address: 172.20.0.130
+WM: 0
+OTP: 1.1.1(1-16-4-zp5s-0.5)
+---------------------------------
+Play:5: Office
+Serial Number: 00-0E-58-5F-40-BE:C
+Sonos OS: S1
+Version: 11.16.1 (build 572374170)
+Hardware Version: 1.16.4.1-1.0
+Series ID: P100
+IP Address: 172.20.0.139
+WM: 0
+OTP: 1.1.1(1-16-4-zp5s-0.5)
+---------------------------------
+Sonos Move: Patio
+Serial Number: C4-38-75-22-9B-DC:G
+Sonos OS: S1
+Version: 11.16.1 (build 572374170)
+Hardware Version: 1.25.1.11-1.2
+Series ID: A103
+IP Address: 172.20.0.255
+WM: 1
+---------------------------------
+Play:3: Speakeasy
+Serial Number: 00-0E-58-75-09-EA:6
+Sonos OS: S1
+Version: 11.16.1 (build 572374170)
+Hardware Version: 1.8.1.2-1.0
+Series ID: A100
+IP Address: 172.20.0.151
+WM: 0
+OTP: 
+---------------------------------
+Sonos Move: Upper Deck
+Serial Number: C4-38-75-22-9B-50:C
+Sonos OS: S1
+Version: 11.16.1 (build 572374170)
+Hardware Version: 1.25.1.11-1.2
+Series ID: A103
+IP Address: 172.20.0.250
+WM: 1
