@@ -63,6 +63,7 @@ Each script reads a netscanner JSON document — as a file path argument, or fro
 - `update-lxc-devices <netscanner.json>` — matches known Proxmox LXC containers by hostname (`budgetbuddy-slack-app`, `winebuddy-slack-app`, `winebuddy-sync-with-cellartracker`, `twingate-connector`); no external inventory needed. Sets `type` to `LXC Container`, `model` to `Proxmox LXC Container`.
 - `update-reolink-devices <netscanner.json>` — matches the device with `hostname == "office-camera"`; no external inventory needed. Sets `type` to `Surveillance Camera`, `model` to `Reolink Video Surveillance System`.
 - `update-smartfridge-devices <netscanner.json>` — matches the device with `hostname == "bosch-b36it900np-68a40e2d9a91"`; no external inventory needed. Sets `type` to `Smart Fridge`, `model` to `Bosch`.
+- `update-thermostat-devices <netscanner.json>` — matches known Honeywell/Resideo thermostat gateways by hostname (`gateway8b7c2f`, `gatewaya4b553`); no external inventory needed. Sets `type` to `Thermostat`, `model` to `Honeywell/Resideo`.
 - `initialize-type-model-attributes <netscanner.json>` — run last; adds an empty `""` `type`/`model` to any device the earlier steps didn't touch, so every device ends up with both fields.
 
 Any device from `data/*.txt` not found in the netscanner JSON (e.g. an inactive lease) is reported to stderr and skipped, rather than failing the run.
@@ -88,6 +89,7 @@ cat expected.json |
   uv run update-lxc-devices |
   uv run update-reolink-devices |
   uv run update-smartfridge-devices |
+  uv run update-thermostat-devices |
   uv run initialize-type-model-attributes \
     >enriched.json
 ```
