@@ -19,5 +19,6 @@ cat expected.json |
   uv run update-roomba-devices |
   uv run update-lxc-devices |
   uv run update-reolink-devices |
+  uv run update-smartfridge-devices |
   uv run initialize-type-model-attributes \
     >enriched.json

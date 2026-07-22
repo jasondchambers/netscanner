@@ -62,6 +62,7 @@ Each script reads a netscanner JSON document — as a file path argument, or fro
 - `update-roomba-devices <netscanner.json>` — matches the device with `hostname == "irobot-105e11ff70874ae1abef649dbd67315a"`; no external inventory needed. Sets `type` to `Robot Vacuum`, `model` to `iRobot Roomba`.
 - `update-lxc-devices <netscanner.json>` — matches known Proxmox LXC containers by hostname (`budgetbuddy-slack-app`, `winebuddy-slack-app`, `winebuddy-sync-with-cellartracker`, `twingate-connector`); no external inventory needed. Sets `type` to `LXC Container`, `model` to `Proxmox LXC Container`.
 - `update-reolink-devices <netscanner.json>` — matches the device with `hostname == "office-camera"`; no external inventory needed. Sets `type` to `Surveillance Camera`, `model` to `Reolink Video Surveillance System`.
+- `update-smartfridge-devices <netscanner.json>` — matches the device with `hostname == "bosch-b36it900np-68a40e2d9a91"`; no external inventory needed. Sets `type` to `Smart Fridge`, `model` to `Bosch`.
 - `initialize-type-model-attributes <netscanner.json>` — run last; adds an empty `""` `type`/`model` to any device the earlier steps didn't touch, so every device ends up with both fields.
 
 Any device from `data/*.txt` not found in the netscanner JSON (e.g. an inactive lease) is reported to stderr and skipped, rather than failing the run.
@@ -86,6 +87,7 @@ cat expected.json |
   uv run update-roomba-devices |
   uv run update-lxc-devices |
   uv run update-reolink-devices |
+  uv run update-smartfridge-devices |
   uv run initialize-type-model-attributes \
     >enriched.json
 ```
