@@ -14,5 +14,6 @@ cat expected.json |
   uv run update-garagedoor-devices |
   uv run update-arlo-devices |
   uv run update-echo-devices |
+  uv run update-networking-devices |
   uv run initialize-type-model-attributes \
     >enriched.json

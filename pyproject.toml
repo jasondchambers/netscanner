@@ -21,6 +21,7 @@ update-pictureframe-devices = "enrich.update_pictureframe_devices:main"
 update-garagedoor-devices = "enrich.update_garagedoor_devices:main"
 update-arlo-devices = "enrich.update_arlo_devices:main"
 update-echo-devices = "enrich.update_echo_devices:main"
+update-networking-devices = "enrich.update_networking_devices:main"
 initialize-type-model-attributes = "enrich.initialize_type_model_attributes:main"
 
 [build-system]
