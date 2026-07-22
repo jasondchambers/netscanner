@@ -16,5 +16,6 @@ cat expected.json |
   uv run update-echo-devices |
   uv run update-networking-devices |
   uv run update-smartplug-devices |
+  uv run update-roomba-devices |
   uv run initialize-type-model-attributes \
     >enriched.json
