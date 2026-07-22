@@ -24,6 +24,7 @@ update-echo-devices = "enrich.update_echo_devices:main"
 update-networking-devices = "enrich.update_networking_devices:main"
 update-smartplug-devices = "enrich.update_smartplug_devices:main"
 update-roomba-devices = "enrich.update_roomba_devices:main"
+update-lxc-devices = "enrich.update_lxc_devices:main"
 initialize-type-model-attributes = "enrich.initialize_type_model_attributes:main"
 
 [build-system]
