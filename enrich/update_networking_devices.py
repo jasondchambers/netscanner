@@ -6,9 +6,12 @@ import sys
 from pathlib import Path
 
 NETWORKING_TYPE = "Networking Device"
-NETWORKING_MODEL = "TP-Link switch"
 
-NETWORKING_HOSTNAMES = {"distribution-switch", "access-switch"}
+NETWORKING_MODELS_BY_HOSTNAME = {
+    "distribution-switch": "TP-Link switch",
+    "access-switch": "TP-Link switch",
+    "linksys00440": "Linksys WiFi Router",
+}
 
 
 def main() -> None:
@@ -28,11 +31,12 @@ def main() -> None:
         data = json.loads(args.expected_json.read_text())
 
     for device in data["devices"]:
-        if device.get("hostname") not in NETWORKING_HOSTNAMES:
+        model = NETWORKING_MODELS_BY_HOSTNAME.get(device.get("hostname"))
+        if model is None:
             continue
         device["type"] = NETWORKING_TYPE
-        device["model"] = NETWORKING_MODEL
-        print(f"Updated {device['mac']} -> type = '{NETWORKING_TYPE}', model = '{NETWORKING_MODEL}'", file=sys.stderr)
+        device["model"] = model
+        print(f"Updated {device['mac']} -> type = '{NETWORKING_TYPE}', model = '{model}'", file=sys.stderr)
 
     print(json.dumps(data, indent=2))
 
