@@ -58,6 +58,7 @@ Each script reads a netscanner JSON document — as a file path argument, or fro
 - `update-arlo-devices <netscanner.json>` — matches the device with `hostname == "arloq"`; no external inventory needed. Sets `type` to `Audio / Video Security System`, `model` to `Arlo`.
 - `update-echo-devices <netscanner.json>` — matches known Amazon Echo devices by MAC (`44:00:49:74:f7:68`, `fc:a1:83:ad:7c:83`, `a0:d0:dc:01:21:e1`); no external inventory needed. Sets `type` to `Smart Speaker`, `model` to `Amazon Echo`.
 - `update-networking-devices <netscanner.json>` — matches devices with `hostname` of `distribution-switch` or `access-switch`; no external inventory needed. Sets `type` to `Networking Device`, `model` to `TP-Link switch`.
+- `update-smartplug-devices <netscanner.json>` — matches known TP-Link smart plugs by hostname (`hs103` → TP-Link HS103, `hs105` → TP-Link HS105); no external inventory needed. Sets `type` to `Smart Plug` and `model` accordingly.
 - `initialize-type-model-attributes <netscanner.json>` — run last; adds an empty `""` `type`/`model` to any device the earlier steps didn't touch, so every device ends up with both fields.
 
 Any device from `data/*.txt` not found in the netscanner JSON (e.g. an inactive lease) is reported to stderr and skipped, rather than failing the run.
@@ -78,6 +79,7 @@ cat expected.json |
   uv run update-arlo-devices |
   uv run update-echo-devices |
   uv run update-networking-devices |
+  uv run update-smartplug-devices |
   uv run initialize-type-model-attributes \
     >enriched.json
 ```
