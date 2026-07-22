@@ -4,3 +4,4 @@ Front Door                          doorbell_scallop_lite     54:e0:19:f2:63:39 
 Upstairs                            stickup_cam_mini          34:3e:a4:41:d1:d7    online
 Downstairs                          stickup_cam_mini          34:3e:a4:4e:1b:11    online
 Front                               stickup_cam_v4            64:69:4e:11:a4:a1    online
+Alarm                                alarm_base_station_gen2   b0:09:da:3a:17:ba    online
