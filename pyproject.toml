@@ -29,6 +29,7 @@ update-reolink-devices = "enrich.update_reolink_devices:main"
 update-smartfridge-devices = "enrich.update_smartfridge_devices:main"
 update-thermostat-devices = "enrich.update_thermostat_devices:main"
 update-cylerasensor-devices = "enrich.update_cylerasensor_devices:main"
+update-samsungtv-devices = "enrich.update_samsungtv_devices:main"
 initialize-type-model-attributes = "enrich.initialize_type_model_attributes:main"
 
 [build-system]
