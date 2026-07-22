@@ -12,6 +12,8 @@ SONOS_MODEL = "Sonos Wireless Home Sound System"
 SEPARATOR_RE = re.compile(r"^-+$")
 SERIAL_RE = re.compile(r"^Serial Number:\s*([0-9A-Fa-f]{2}(?:-[0-9A-Fa-f]{2}){5})")
 
+BRIDGE_HOSTNAME = "sonoszb"
+
 
 def parse_sonos_devices(path: Path) -> list[dict]:
     devices = []
@@ -39,11 +41,13 @@ def parse_sonos_devices(path: Path) -> list[dict]:
                 mac = match.group(1).replace("-", ":").lower()
                 break
 
-        if mac is None:
+        kind = kind.strip()
+
+        if mac is None and kind.lower() != "bridge":
             print(f"SKIPPED: '{header}' has no Serial Number/MAC address, skipping", file=sys.stderr)
             continue
 
-        devices.append({"name": name.strip(), "kind": kind.strip(), "mac": mac})
+        devices.append({"name": name.strip(), "kind": kind, "mac": mac})
 
     return devices
 
@@ -73,11 +77,20 @@ def main() -> None:
     for sonos_device in sonos_devices:
         mac = sonos_device["mac"]
         name = sonos_device["name"]
-        device = devices_by_mac.get(mac)
-        if device is None:
-            print(f"NOT FOUND: Sonos device '{name}' ({mac}) not present in {source_label}", file=sys.stderr)
-            continue
         kind = sonos_device["kind"]
+
+        if mac is None:
+            device = next((d for d in data["devices"] if d.get("hostname") == BRIDGE_HOSTNAME), None)
+            if device is None:
+                print(f"NOT FOUND: Sonos device '{name}' ({kind}) not present in {source_label}", file=sys.stderr)
+                continue
+            mac = device["mac"]
+        else:
+            device = devices_by_mac.get(mac)
+            if device is None:
+                print(f"NOT FOUND: Sonos device '{name}' ({mac}) not present in {source_label}", file=sys.stderr)
+                continue
+
         description = f"Sonos: {name}: {kind}"
         device["description"] = description
         device["type"] = SONOS_TYPE
