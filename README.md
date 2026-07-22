@@ -66,6 +66,7 @@ Each script reads a netscanner JSON document — as a file path argument, or fro
 - `update-thermostat-devices <netscanner.json>` — matches known Honeywell/Resideo thermostat gateways by hostname (`gateway8b7c2f`, `gatewaya4b553`); no external inventory needed. Sets `type` to `Thermostat`, `model` to `Honeywell/Resideo`.
 - `update-cylerasensor-devices <netscanner.json>` — matches the device with `hostname == "cylera-sensor"`; no external inventory needed. Sets `type` to `Network Sensor`, `model` to `Cylera`.
 - `update-samsungtv-devices <netscanner.json>` — matches the Samsung Smart TV by MAC (`f8:04:2e:86:77:7a`), since it reports a generic `localhost` hostname; no external inventory needed. Sets `type` to `Smart TV`, `model` to `Samsung`.
+- `update-kitchenlight-devices <netscanner.json>` — matches the kitchen light by MAC (`d4:a6:51:49:b3:72`), a Tuya-based device that reports a generic `wlan0` hostname; no external inventory needed. Sets `type` to `Smart Light`, `model` to `Tuya Smart Light`.
 - `initialize-type-model-attributes <netscanner.json>` — run last; adds an empty `""` `type`/`model` to any device the earlier steps didn't touch, so every device ends up with both fields.
 
 Any device from `data/*.txt` not found in the netscanner JSON (e.g. an inactive lease) is reported to stderr and skipped, rather than failing the run.
@@ -94,6 +95,7 @@ cat expected.json |
   uv run update-thermostat-devices |
   uv run update-cylerasensor-devices |
   uv run update-samsungtv-devices |
+  uv run update-kitchenlight-devices |
   uv run initialize-type-model-attributes \
     >enriched.json
 ```

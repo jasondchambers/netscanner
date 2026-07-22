@@ -23,5 +23,6 @@ cat expected.json |
   uv run update-thermostat-devices |
   uv run update-cylerasensor-devices |
   uv run update-samsungtv-devices |
+  uv run update-kitchenlight-devices |
   uv run initialize-type-model-attributes \
     >enriched.json
