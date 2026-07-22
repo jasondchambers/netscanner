@@ -10,6 +10,7 @@ SMARTPLUG_TYPE = "Smart Plug"
 SMARTPLUG_MODELS_BY_HOSTNAME = {
     "hs103": "TP-Link HS103",
     "hs105": "TP-Link HS105",
+    "ep25": "TP-Link EP-25",
 }
 
 
