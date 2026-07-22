@@ -6,7 +6,11 @@ import sys
 from pathlib import Path
 
 PRINTER_TYPE = "Printer/Scanner"
-PRINTER_MODEL = "Brother Printer/Scanner"
+
+PRINTER_MODELS_BY_HOSTNAME = {
+    "officeprinter": "Brother Printer/Scanner",
+    "npifb72b6.stratford.": "HP Printer/Scanner",
+}
 
 
 def main() -> None:
@@ -26,11 +30,12 @@ def main() -> None:
         data = json.loads(args.expected_json.read_text())
 
     for device in data["devices"]:
-        if device.get("hostname") != "officeprinter":
+        model = PRINTER_MODELS_BY_HOSTNAME.get(device.get("hostname"))
+        if model is None:
             continue
         device["type"] = PRINTER_TYPE
-        device["model"] = PRINTER_MODEL
-        print(f"Updated {device['mac']} -> type = '{PRINTER_TYPE}', model = '{PRINTER_MODEL}'", file=sys.stderr)
+        device["model"] = model
+        print(f"Updated {device['mac']} -> type = '{PRINTER_TYPE}', model = '{model}'", file=sys.stderr)
 
     print(json.dumps(data, indent=2))
 
