@@ -10,5 +10,4 @@ wheels/
 .venv
 
 # Generated netscanner output
-expected.json
-enriched.json
+devices.json

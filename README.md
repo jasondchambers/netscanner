@@ -15,10 +15,10 @@ export PFSENSE_SSH_KEY=~/.ssh/netscanner_pfsense
 ## Usage
 
 ```
-./generate_expected.sh
+./scan.sh
 ```
 
-This is the main entry point. It scans the network and writes the raw device list to `expected.json`, then runs it through the `enrich` package to produce `enriched.json` — the same devices, with `type`/`model` (and sometimes `description`) filled in wherever a device is recognized by hostname or MAC address. Edit the script if your pfSense host differs from `10.27.27.1`.
+This is the main entry point. It scans the network and writes the device list to `devices.json`.
 
 To run just the scan, without enrichment:
 
